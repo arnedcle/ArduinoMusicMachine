@@ -1,0 +1,23 @@
+import processing.serial.*;
+
+Serial port; // Maak een seriële poort object aan
+
+void setup() {
+  size(200, 200);
+
+  // Kies de juiste poort (verander 'COM7' naar de poort van je Arduino)
+  port = new Serial(this, "COM7", 9600);
+
+  // Laad het CSV-bestand
+  String[] lines = loadStrings("C:\\Users\\arned\\OneDrive - UGent\\IO\\semester7\\Slimme producten\\akkoord_A_C_D_E_Em_G_juiste_solenoides\\riptide.csv");
+
+  // Stuur elke regel naar de Arduino met een delay van 2353 mseconden tussen elke regel
+  for (String line : lines) {
+    port.write(line + '\n');
+    delay(1176); // Wacht 2353 mseconden tussen elke regel
+  }
+
+  // Sluit de poort om het programma netjes af te sluiten
+  port.stop();
+  exit();
+}
