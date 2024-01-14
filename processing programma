@@ -9,7 +9,7 @@ void setup() {
   port = new Serial(this, "COM7", 9600);
 
   // Laad het CSV-bestand
-  String[] lines = loadStrings("C:\\Users\\arned\\OneDrive - UGent\\IO\\semester7\\Slimme producten\\akkoord_A_C_D_E_Em_G_juiste_solenoides\\riptide.csv");
+  String[] lines = loadStrings("hier komt het pad naar je csv bestand");
 
   // Stuur elke regel naar de Arduino met een delay van 2353 mseconden tussen elke regel
   for (String line : lines) {
