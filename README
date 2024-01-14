@@ -1,0 +1,11 @@
+'''
+Dit zijn 2 files om onze automatische gitaar te besturen.
+Om alle 18 solenoides correct aan te sluiten begin je linksboven, dit is solenoide 1 en sluit je aan op pin 21.
+solenoide 2 op nummer 22 zo tot alle solenoides aangesloten zijn. 
+
+Het arduino programma upload je.
+in het CSV bestand zet je welk akkoord je wilt spelen
+in het processing programma zorg je dat de weg naar je CSV bestand juist staat en de delay die je wilt per akkoord.
+je start het processing en de solenoides worden aangestuurd
+geniet van de leuke klanken
+'''
