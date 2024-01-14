@@ -1,0 +1,109 @@
+#define SERIAL_PORT Serial // Definieer de seriële poort
+
+// Definieer de pinnen voor de solenoïden per letter
+const int solenoidPinsA[] = {29, 30, 31};
+const int solenoidPinsD[] = {30, 25, 32};
+const int solenoidPinsE[] = {28, 29, 24};
+const int solenoidPinsG[] = {33, 28, 38};
+const int solenoidPinsC[] = {34, 29, 25};
+const int solenoidPinsEm[] = {28, 29};
+const int solenoidPinsAmi[] = {29, 30, 25};
+const int solenoidPinsFma7[] = {25, 30, 35};
+const int numSolenoids = 3;
+
+// Variabelen voor het bijhouden van de staat van elke solenoïde
+bool solenoidState[numSolenoids] = {LOW, LOW, LOW};
+
+void setup() {
+  // Configureer de solenoïd-pinnen als uitgangen
+  for (int i = 0; i < numSolenoids; i++) {
+    pinMode(solenoidPinsA[i], OUTPUT);
+    pinMode(solenoidPinsD[i], OUTPUT);
+    pinMode(solenoidPinsE[i], OUTPUT);
+    pinMode(solenoidPinsG[i], OUTPUT);
+    pinMode(solenoidPinsC[i], OUTPUT);
+    pinMode(solenoidPinsEm[i], OUTPUT);
+    pinMode(solenoidPinsAmi[i], OUTPUT);
+    pinMode(solenoidPinsFma7[i], OUTPUT);
+  }
+
+  // Initialiseer de seriële communicatie
+  SERIAL_PORT.begin(9600);
+}
+
+void loop() {
+  if (SERIAL_PORT.available() > 0) {
+    // Lees de gegevens vanaf de seriële poort
+    String data = SERIAL_PORT.readStringUntil('\n');
+
+    // Verwerk de ontvangen gegevens
+    processData(data);
+  }
+}
+
+void processData(String data) {
+  // Verwerk de ontvangen gegevens
+  // Hier gaan we ervan uit dat de gegevens in de vorm "letter" zijn (A, C, D, E, G, Ami, Fma7 of Em)
+  char letter = data.charAt(0);
+
+  // Schakel eerst alle solenoïden uit
+  for (int i = 0; i < numSolenoids; i++) {
+    digitalWrite(solenoidPinsA[i], LOW);
+    digitalWrite(solenoidPinsD[i], LOW);
+    digitalWrite(solenoidPinsE[i], LOW);
+    digitalWrite(solenoidPinsG[i], LOW);
+    digitalWrite(solenoidPinsC[i], LOW);
+    digitalWrite(solenoidPinsEm[i], LOW);
+    digitalWrite(solenoidPinsAmi[i], LOW);
+    digitalWrite(solenoidPinsFma7[i], LOW);
+    solenoidState[i] = LOW;
+  }
+
+  // Schakel de juiste solenoïden in op basis van de ontvangen gegevens
+  switch (letter) {
+    case 'A':
+      activateSolenoids(solenoidPinsA);
+      break;
+
+    case 'D':
+      activateSolenoids(solenoidPinsD);
+      break;
+
+    case 'E':
+      activateSolenoids(solenoidPinsE);
+      break;
+
+    case 'G':
+      activateSolenoids(solenoidPinsG);
+      break;
+
+    case 'C':
+      activateSolenoids(solenoidPinsC);
+      break;
+
+    case 'Em':
+      activateSolenoids(solenoidPinsEm);
+      break;
+
+    case 'Ami':
+      activateSolenoids(solenoidPinsAmi);
+      break;
+
+    case 'Fma7':
+      activateSolenoids(solenoidPinsFma7);
+      break;
+
+    default:
+      // Ongeldige letter
+      Serial.println("Ongeldige letter");
+      break;
+  }
+}
+
+void activateSolenoids(const int solenoidPins[]) {
+  // Schakel de solenoïden in
+  for (int i = 0; i < numSolenoids; i++) {
+    digitalWrite(solenoidPins[i], HIGH);
+    solenoidState[i] = HIGH;  // Bijwerken van de staat van elke solenoïde
+  }
+}
